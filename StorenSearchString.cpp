@@ -1,73 +1,46 @@
 // C++
-// C++
 #include <bits/stdc++.h>
-
 using namespace std;
-deque<string> action;
-vector<string> DataBase;
-
-int findInList(string data)
+int find(string a, set<string> data)
 {
-    auto pointer = find(DataBase.begin(), DataBase.end(), data);
-    if (pointer != DataBase.end())
+    if (data.count(a) == 1)
         return 1;
     else
         return 0;
 }
 
-int insertToList(string data)
+int store_n_search(string a, string b, set<string> data)
 {
-    auto pointer = find(DataBase.begin(), DataBase.end(), data);
-    if (pointer != DataBase.end())
-        return 0;
-    else
-    {
-        DataBase.push_back(data);
+    int isexist = find(b, data);
+    if (a == "find" && isexist == 1)
         return 1;
-    }
-}
-
-void dataHandler(deque<string> &a)
-{
-    int result = 0;
-    while (!a.empty())
-    {
-        string action = a.front();
-        a.pop_front();
-        string object = a.front();
-        a.pop_front();
-        if (action == "insert")
-        {
-            result = insertToList(object);
-            cout << result;
-        }
-        if (action == "find")
-        {
-            result = findInList(object);
-            cout << result;
-        }
-    }
+    if (a == "insert" && isexist == 0)
+        return 1;
+    else
+        return 0;
 }
 
 int main()
 {
-    int result;
-    string arrItem;
-    string queItem;
-
-    while (cin >> arrItem && arrItem != "*")
+    set<string> data;
+    vector<string> action;
+    vector<string> item;
+    string a;
+    while (a != "*")
     {
-        DataBase.push_back({arrItem});
+        cin >> a;
+        data.insert(a);
     }
-
-    while (cin >> queItem && queItem != "***")
+    cin >> a;
+    while (a != "***")
     {
-        action.push_back(queItem);
+        action.push_back(a);
+        cin >> a;
+        item.push_back(a);
+        cin >> a;
     }
-
-    action.pop_front();
-
-    dataHandler(action);
-
-    return 0;
+    for (int i = 0; i < action.size(); i++)
+    {
+        cout << store_n_search(action[i], item[i], data) << "\n";
+    }
 }
